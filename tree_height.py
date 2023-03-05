@@ -48,34 +48,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-
-def main():
-    choice = input("Enter 'F' to read input from file or 'I' to enter input from keyboard: ")
-    if choice.upper() == 'F':
-        file_name = input("Enter the file name to read input from (file name should not contain 'a'): ")
-        if 'a' in file_name:
-            print("Invalid file name! File name should not contain 'a'.")
-            return
-        try:
-            with open('input_files/' + file_name, 'r') as f:
-                input_data = f.read().strip()
-        except FileNotFoundError:
-            print("File not found!")
-            return
-    elif choice.upper() == 'I':
-        input_data = read_input_from_keyboard()
-    else:
-        print("Invalid choice!")
-        return
-
-    # call the function to perform the task
-    result = perform_task(input_data)
-
-    # print the result
-    print(result)
-
-
-if __name__ == '__main__':
-    main()
-
