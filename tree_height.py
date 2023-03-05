@@ -34,15 +34,13 @@ def compute_height(parents):
 
 
 def main():
-    choice = input()
-    tree = list(map(int, input().split()))
-    height = compute_height(tree)
-    if choice == "I":
-        print(height)
-    else:
-        print(height)
-
-if __name__ == "__main__":
-    main()
-
+	choice = input()
+	text = input()
+	height = compute_height(text)
+	if choice == "I":
+		print(height)
+	else:
+		print(height)
+if __name__ == "main":
+	main()
 
