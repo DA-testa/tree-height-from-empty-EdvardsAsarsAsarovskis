@@ -22,63 +22,27 @@ def compute_height(parents):
 
     # Compute height using a depth-first search
     height = 0
-    stack = [root]
+    stack = [(root, 1)]
     while stack:
-        level_size = len(stack)
-        while level_size:
-            node = stack.pop(0)
-            level_size -= 1
-            for child in node.children:
-                stack.append(child)
-        height += 1
+        node, level = stack.pop()
+        if not node.children:
+            height = max(height, level)
+        for child in node.children:
+            stack.append((child, level+1))
 
     return height
 
-def read_input_from_keyboard():
-    n = int(input())
-    parents = list(map(int, input().split()))
-    return n, parents
-
-def read_input_from_file(file_name):
-    try:
-        with open(os.path.join("input_files", file_name), "r") as f:
-            input_data = f.read().strip()
-            n, parents = input_data.split("\n")
-            n = int(n)
-            parents = list(map(int, parents.split()))
-            return n, parents
-    except FileNotFoundError:
-        print("File not found!")
-        return None, None
-    except ValueError:
-        print("Invalid input file format!")
-        return None, None
-
-def perform_task(input_data):
-    n, parents = input_data
-    return compute_height(parents)
 
 def main():
-    choice = input("Enter 'F' to read input from file or 'I' to enter input from keyboard: ")
-    if choice.upper() == 'F':
-        while True:
-            file_name = input("Enter the file name to read input from (file name should not contain 'a'): ")
-            if 'a' in file_name:
-                print("Invalid file name! File name should not contain 'a'.")
-            else:
-                break
-        input_data = read_input_from_file(file_name)
-    elif choice.upper() == 'I':
-        input_data = read_input_from_keyboard()
+    choice = input()
+    tree = list(map(int, input().split()))
+    height = compute_height(tree)
+    if choice == "I":
+        print(height)
     else:
-        print("Invalid choice!")
-        return
+        print(height)
 
-    # call the function to perform the task
-    result = perform_task(input_data)
-
-    # print the result
-    print(result)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+
+
