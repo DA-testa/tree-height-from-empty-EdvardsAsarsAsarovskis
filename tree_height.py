@@ -1,5 +1,6 @@
 import sys
 import threading
+import os.path
 
 class Node:
     def __init__(self, index):
@@ -21,22 +22,60 @@ def compute_height(parents):
 
     # Compute height using a depth-first search
     height = 0
-    stack = [root]
+    stack = [(root, 1)]
     while stack:
-        level_size = len(stack)
-        while level_size:
-            node = stack.pop(0)
-            level_size -= 1
-            for child in node.children:
-                stack.append(child)
-        height += 1
+        node, level = stack.pop()
+        if not node.children:
+            height = max(height, level)
+        for child in node.children:
+            stack.append((child, level+1))
 
     return height
 
+
 def main():
+    # Read input
     n = int(input())
     parents = list(map(int, input().split()))
-    print(compute_height(parents))
+
+    # Compute tree height
+    height = compute_height(parents)
+
+    # Print output
+    print(height)
+
 
 if __name__ == '__main__':
     main()
+
+
+
+def main():
+    choice = input("Enter 'F' to read input from file or 'I' to enter input from keyboard: ")
+    if choice.upper() == 'F':
+        file_name = input("Enter the file name to read input from (file name should not contain 'a'): ")
+        if 'a' in file_name:
+            print("Invalid file name! File name should not contain 'a'.")
+            return
+        try:
+            with open('input_files/' + file_name, 'r') as f:
+                input_data = f.read().strip()
+        except FileNotFoundError:
+            print("File not found!")
+            return
+    elif choice.upper() == 'I':
+        input_data = read_input_from_keyboard()
+    else:
+        print("Invalid choice!")
+        return
+
+    # call the function to perform the task
+    result = perform_task(input_data)
+
+    # print the result
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
+
